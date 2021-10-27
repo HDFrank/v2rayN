@@ -33,7 +33,7 @@ namespace v2rayN.Handler
                 config = Utils.FromJson<Config>(result);
             }
             else
-            {            
+            {
                 if (File.Exists(Utils.GetPath(configRes)))
                 {
                     Utils.SaveLog("LoadConfig Exception");
@@ -896,6 +896,10 @@ namespace v2rayN.Handler
             {
                 return -1;
             }
+
+            string itemId = config.getItemId();
+            var items = config.vmess.AsQueryable();
+
             switch (name)
             {
                 case EServerColName.configType:
@@ -904,21 +908,31 @@ namespace v2rayN.Handler
                 case EServerColName.port:
                 case EServerColName.security:
                 case EServerColName.network:
+                    if (asc)
+                    {
+                        config.vmess = items.OrderBy(name.ToString()).ToList();
+                    }
+                    else
+                    {
+                        config.vmess = items.OrderByDescending(name.ToString()).ToList();
+                    }
+                    break;
                 case EServerColName.testResult:
+                    if (asc)
+                    {
+                        config.vmess = items.OrderBy(v => v.Ping)
+                            .ThenBy(v => v.testResult.TrimStart())
+                            .ToList();
+                    }
+                    else
+                    {
+                        config.vmess = items.OrderByDescending(v => v.Ping)
+                            .ThenByDescending(v => v.testResult.TrimStart())
+                            .ToList();
+                    }
                     break;
                 default:
                     return -1;
-            }
-            string itemId = config.getItemId();
-            var items = config.vmess.AsQueryable();
-
-            if (asc)
-            {
-                config.vmess = items.OrderBy(name.ToString()).ToList();
-            }
-            else
-            {
-                config.vmess = items.OrderByDescending(name.ToString()).ToList();
             }
 
             var index_ = config.vmess.FindIndex(it => it.getItemId() == itemId);

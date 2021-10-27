@@ -582,6 +582,18 @@ namespace v2rayN.Mode
             get; set;
         }
 
+        public int Ping
+        {
+            get
+            {
+                if (testResult.EndsWith("ms"))
+                {
+                    return Convert.ToInt32(testResult.Substring(0, testResult.Length - 2));
+                }
+                return int.MaxValue;
+            }
+        }
+
         /// <summary>
         /// SubItem id
         /// </summary>
