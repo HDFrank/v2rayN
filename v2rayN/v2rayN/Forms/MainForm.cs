@@ -236,6 +236,10 @@ namespace v2rayN.Forms
                 {
                     def = "√";
                 }
+                else
+                {
+                    def = (k + 1).ToString();
+                }
 
                 VmessItem item = config.vmess[k];
 
