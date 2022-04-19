@@ -1,17 +1,22 @@
-﻿using System;
+﻿using NHotkey;
+using NHotkey.WindowsForms;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using v2rayN.Base;
 using v2rayN.Mode;
+using System.Linq;
+using v2rayN.Resx;
 
 namespace v2rayN.Handler
 {
-    class MainFormHandler
+    public sealed class MainFormHandler
     {
-        private static MainFormHandler instance;
-        Action<bool, string> _updateUI;
+        private static readonly Lazy<MainFormHandler> instance = new Lazy<MainFormHandler>(() => new MainFormHandler());
+        //Action<bool, string> _updateUI;
 
         //private DownloadHandle downloadHandle2;
         //private Config _config;
@@ -21,16 +26,8 @@ namespace v2rayN.Handler
         //Action<int, string> _updateFunc;
         public static MainFormHandler Instance
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new MainFormHandler();
-                }
-                return instance;
-            }
+            get { return instance.Value; }
         }
-
         public Icon GetNotifyIcon(Config config, Icon def)
         {
             try
@@ -50,9 +47,23 @@ namespace v2rayN.Handler
                 Graphics graphics = Graphics.FromImage(bitmap);
                 SolidBrush drawBrush = new SolidBrush(color);
 
-                graphics.FillEllipse(drawBrush, new Rectangle(0, 0, width, height));
-                int zoom = 16;
-                graphics.DrawImage(new Bitmap(Properties.Resources.notify, width - zoom, width - zoom), zoom / 2, zoom / 2);
+                var customIcon = false;
+                if (config.enableRoutingAdvanced)
+                {
+                    var item = config.routings[config.routingIndex];
+                    if (!Utils.IsNullOrEmpty(item.customIcon) && File.Exists(item.customIcon))
+                    {
+                        graphics.FillRectangle(drawBrush, new Rectangle(0, 0, width, height));
+                        graphics.DrawImage(new Bitmap(item.customIcon), 0, 0, width, height);
+                        customIcon = true;
+                    }
+                }
+                if (!customIcon)
+                {
+                    graphics.FillEllipse(drawBrush, new Rectangle(0, 0, width, height));
+                    int zoom = 16;
+                    graphics.DrawImage(new Bitmap(Properties.Resources.notify, width - zoom, width - zoom), zoom / 2, zoom / 2);
+                }
 
                 Icon createdIcon = Icon.FromHandle(bitmap.GetHicon());
 
@@ -69,17 +80,16 @@ namespace v2rayN.Handler
             }
         }
 
-        public void Export2ClientConfig(int index, Config config)
+        public void Export2ClientConfig(VmessItem item, Config config)
         {
-            //int index = GetLvSelectedIndex();
-            if (index < 0)
+            if (item == null)
             {
                 return;
             }
-            if (config.vmess[index].configType != (int)EConfigType.Vmess
-                && config.vmess[index].configType != (int)EConfigType.VLESS)
+            if (item.configType != EConfigType.Vmess
+                && item.configType != EConfigType.VLESS)
             {
-                UI.Show(UIRes.I18N("NonVmessService"));
+                UI.Show(ResUI.NonVmessService);
                 return;
             }
 
@@ -98,29 +108,28 @@ namespace v2rayN.Handler
             {
                 return;
             }
-            Config configCopy = Utils.DeepCopy(config);
-            configCopy.index = index;
-            if (V2rayConfigHandler.Export2ClientConfig(configCopy, fileName, out string msg) != 0)
+            //Config configCopy = Utils.DeepCopy(config);
+            //configCopy.index = index;
+            if (V2rayConfigHandler.Export2ClientConfig(item, fileName, out string msg) != 0)
             {
                 UI.Show(msg);
             }
             else
             {
-                UI.ShowWarning(string.Format(UIRes.I18N("SaveClientConfigurationIn"), fileName));
+                UI.ShowWarning(string.Format(ResUI.SaveClientConfigurationIn, fileName));
             }
         }
 
-        public void Export2ServerConfig(int index, Config config)
+        public void Export2ServerConfig(VmessItem item, Config config)
         {
-            //int index = GetLvSelectedIndex();
-            if (index < 0)
+            if (item == null)
             {
                 return;
             }
-            if (config.vmess[index].configType != (int)EConfigType.Vmess
-                && config.vmess[index].configType != (int)EConfigType.VLESS)
+            if (item.configType != EConfigType.Vmess
+                && item.configType != EConfigType.VLESS)
             {
-                UI.Show(UIRes.I18N("NonVmessService"));
+                UI.Show(ResUI.NonVmessService);
                 return;
             }
 
@@ -139,46 +148,30 @@ namespace v2rayN.Handler
             {
                 return;
             }
-            Config configCopy = Utils.DeepCopy(config);
-            configCopy.index = index;
-            if (V2rayConfigHandler.Export2ServerConfig(configCopy, fileName, out string msg) != 0)
+            //Config configCopy = Utils.DeepCopy(config);
+            //configCopy.index = index;
+            if (V2rayConfigHandler.Export2ServerConfig(item, fileName, out string msg) != 0)
             {
                 UI.Show(msg);
             }
             else
             {
-                UI.ShowWarning(string.Format(UIRes.I18N("SaveServerConfigurationIn"), fileName));
+                UI.ShowWarning(string.Format(ResUI.SaveServerConfigurationIn, fileName));
             }
-        }
-
-        public int AddBatchServers(Config config, string clipboardData, string subid = "")
-        {
-            int counter;
-            int _Add()
-            {
-                return ConfigHandler.AddBatchServers(ref config, clipboardData, subid);
-            }
-            counter = _Add();
-            if (counter < 1)
-            {
-                clipboardData = Utils.Base64Decode(clipboardData);
-                counter = _Add();
-            }
-
-            return counter;
         }
 
         public void BackupGuiNConfig(Config config, bool auto = false)
         {
-            string fileName = string.Empty;
+            string fileName = $"guiNConfig_{DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_fff")}.json";
             if (auto)
             {
-                fileName = Utils.GetTempPath($"guiNConfig{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.json");
+                fileName = Utils.GetBackupPath(fileName);
             }
             else
             {
                 SaveFileDialog fileDialog = new SaveFileDialog
                 {
+                    FileName = fileName,
                     Filter = "guiNConfig|*.json",
                     FilterIndex = 2,
                     RestoreDirectory = true
@@ -199,51 +192,115 @@ namespace v2rayN.Handler
                 if (ret == 0)
                 {
 
-                    UI.Show(UIRes.I18N("OperationSuccess"));
+                    UI.Show(ResUI.OperationSuccess);
                 }
                 else
                 {
-                    UI.ShowWarning(UIRes.I18N("OperationFailed"));
+                    UI.ShowWarning(ResUI.OperationFailed);
                 }
             }
         }
 
         public void UpdateTask(Config config, Action<bool, string> update)
         {
-            _updateUI = update;
-            Task.Run(() => UpdateTaskRun(config));
+            Task.Run(() => UpdateTaskRun(config, update));
         }
 
-        private void UpdateTaskRun(Config config)
+        private void UpdateTaskRun(Config config, Action<bool, string> update)
         {
+            var autoUpdateSubTime = DateTime.Now;
+            var autoUpdateGeoTime = DateTime.Now;
+
+            Thread.Sleep(60000);
+            Utils.SaveLog("UpdateTaskRun");
+
             var updateHandle = new UpdateHandle();
             while (true)
             {
-                Utils.SaveLog("UpdateTaskRun");
-                Thread.Sleep(60000);
-                if (config.autoUpdateInterval <= 0)
+                var dtNow = DateTime.Now;
+
+                if (config.autoUpdateSubInterval > 0)
+                {
+                    if ((dtNow - autoUpdateSubTime).Hours % config.autoUpdateSubInterval == 0)
+                    {
+                        updateHandle.UpdateSubscriptionProcess(config, true, (bool success, string msg) =>
+                        {
+                            update(success, msg);
+                            if (success)
+                                Utils.SaveLog("subscription" + msg);
+                        });
+                        autoUpdateSubTime = dtNow;
+                    }
+                    Thread.Sleep(60000);
+                }
+
+                if (config.autoUpdateInterval > 0)
+                {
+                    if ((dtNow - autoUpdateGeoTime).Hours % config.autoUpdateInterval == 0)
+                    {
+                        updateHandle.UpdateGeoFile("geosite", config, (bool success, string msg) =>
+                        {
+                            update(false, msg);
+                            if (success)
+                                Utils.SaveLog("geosite" + msg);
+                        });
+
+                        updateHandle.UpdateGeoFile("geoip", config, (bool success, string msg) =>
+                        {
+                            update(false, msg);
+                            if (success)
+                                Utils.SaveLog("geoip" + msg);
+                        });
+                        autoUpdateGeoTime = dtNow;
+                    }
+                }
+
+                Thread.Sleep(1000 * 3600);
+            }
+        }
+
+        public void RegisterGlobalHotkey(Config config, EventHandler<HotkeyEventArgs> handler, Action<bool, string> update)
+        {
+            if (config.globalHotkeys == null)
+            {
+                return;
+            }
+
+            foreach (var item in config.globalHotkeys)
+            {
+                if (item.KeyCode == null)
                 {
                     continue;
                 }
 
-                updateHandle.UpdateGeoFile("geosite", config, (bool success, string msg) =>
+                Keys keys = (Keys)item.KeyCode;
+                if (item.Control)
                 {
-                    _updateUI(false, msg);
-                    if (success)
-                        Utils.SaveLog("geosite" + msg);
-                });
-
-                Thread.Sleep(60000);
-
-                updateHandle.UpdateGeoFile("geoip", config, (bool success, string msg) =>
+                    keys |= Keys.Control;
+                }
+                if (item.Alt)
                 {
-                    _updateUI(false, msg);
-                    if (success)
-                        Utils.SaveLog("geoip" + msg);
-                });
+                    keys |= Keys.Alt;
+                }
+                if (item.Shift)
+                {
+                    keys |= Keys.Shift;
+                }
 
-                Thread.Sleep(1000 * 3600 * config.autoUpdateInterval);
+                try
+                {
+                    HotkeyManager.Current.AddOrReplace(((int)item.eGlobalHotkey).ToString(), keys, handler);
+                    var msg = string.Format(ResUI.RegisterGlobalHotkeySuccessfully, $"{item.eGlobalHotkey.ToString()} = {keys}");
+                    update(false, msg);
+                }
+                catch (Exception ex)
+                {
+                    var msg = string.Format(ResUI.RegisterGlobalHotkeyFailed, $"{item.eGlobalHotkey.ToString()} = {keys}", ex.Message);
+                    update(false, msg);
+                    Utils.SaveLog(msg);
+                }
             }
         }
+
     }
 }

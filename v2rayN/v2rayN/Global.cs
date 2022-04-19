@@ -14,6 +14,12 @@ namespace v2rayN
         public const string v2flyCoreUrl = "https://github.com/v2fly/v2ray-core/releases";
         public const string xrayCoreUrl = "https://github.com/XTLS/Xray-core/releases";
         public const string NUrl = @"https://github.com/2dust/v2rayN/releases";
+        public const string clashCoreUrl = "https://github.com/Dreamacro/clash/releases";
+        public const string clashMetaCoreUrl = "https://github.com/MetaCubeX/Clash.Meta/releases";
+        public const string hysteriaCoreUrl = "https://github.com/HyNetwork/hysteria/releases";
+        public const string naiveproxyCoreUrl = "https://github.com/klzgrad/naiveproxy/releases";
+
+
 
 
         /// <summary>
@@ -21,7 +27,6 @@ namespace v2rayN
         /// </summary>
         public const string SpeedTestUrl = @"http://cachefly.cachefly.net/10mb.test";
         public const string SpeedPingTestUrl = @"https://www.google.com/generate_204";
-        public const string AvailabilityTestUrl = @"https://www.google.com/generate_204";
 
         /// <summary>
         /// CustomRoutingListUrl
@@ -61,8 +66,9 @@ namespace v2rayN
         /// </summary>
         public const string v2raySampleHttpresponseFileName = "v2rayN.Sample.SampleHttpresponse.txt";
 
-
         public const string CustomRoutingFileName = "v2rayN.Sample.custom_routing_";
+
+        public const string v2raySampleInbound = "v2rayN.Sample.SampleInbound.txt";
 
 
         /// <summary>
@@ -108,6 +114,8 @@ namespace v2rayN
 
         public const string InboundSocks = "socks";
         public const string InboundHttp = "http";
+        public const string InboundSocks2 = "socks2";
+        public const string InboundHttp2 = "http2";
         public const string Loopback = "127.0.0.1";
         public const string InboundAPITagName = "api";
         public const string InboundAPIProtocal = "dokodemo-door";
@@ -176,6 +184,7 @@ namespace v2rayN
         /// Language
         /// </summary>
         public const string MyRegKeyLanguage = "CurrentLanguage";
+
         /// <summary>
         /// Icon
         /// </summary>
@@ -193,11 +202,16 @@ namespace v2rayN
 
         public const string RoutingRuleComma = "<COMMA>";
 
-        public static readonly IEnumerable<string> ssSecuritys = new HashSet<string> { "aes-256-gcm", "aes-128-gcm", "chacha20-poly1305", "chacha20-ietf-poly1305", "none", "plain" };
-
+        public static readonly List<string> vmessSecuritys = new List<string> { "aes-128-gcm", "chacha20-poly1305", "auto", "none", "zero" };
+        public static readonly List<string> ssSecuritys = new List<string> { "aes-256-gcm", "aes-128-gcm", "chacha20-poly1305", "chacha20-ietf-poly1305", "none", "plain" };
+        public static readonly List<string> ssSecuritysInXray = new List<string> { "aes-256-gcm", "aes-128-gcm", "chacha20-poly1305", "chacha20-ietf-poly1305", "xchacha20-poly1305", "xchacha20-ietf-poly1305", "none", "plain" };
+        public static readonly List<string> xtlsFlows = new List<string> { "", "xtls-rprx-origin", "xtls-rprx-origin-udp443", "xtls-rprx-direct", "xtls-rprx-direct-udp443" };
+        public static readonly List<string> networks = new List<string> { "tcp", "kcp", "ws", "h2", "quic", "grpc" };
+        public static readonly List<string> kcpHeaderTypes = new List<string> { "srtp", "utp", "wechat-video", "dtls", "wireguard" };
+        public static readonly List<string> coreTypes = new List<string> { "v2fly", "Xray" };
         public const string GrpcgunMode = "gun";
         public const string GrpcmultiMode = "multi";
-        
+
         #endregion
 
         #region 全局变量
@@ -209,31 +223,6 @@ namespace v2rayN
         {
             get; set;
         }
-
-        /// <summary>
-        /// 是否开启全局代理(http)
-        /// </summary>
-        public static bool sysAgent
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// socks端口
-        /// </summary>
-        public static int socksPort
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// http端口
-        /// </summary>
-        public static int httpPort
-        {
-            get; set;
-        }
-
 
         /// <summary>
         ///  

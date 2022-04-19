@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using v2rayN.Base;
 using v2rayN.Handler;
 using v2rayN.Mode;
+using v2rayN.Resx;
 
 namespace v2rayN.Forms
 {
@@ -38,6 +40,7 @@ namespace v2rayN.Forms
 
             txtRemarks.Text = routingItem.remarks ?? string.Empty;
             txtUrl.Text = routingItem.url ?? string.Empty;
+            txtCustomIcon.Text = routingItem.customIcon ?? string.Empty;
 
             InitRoutingsView();
             RefreshRoutingsView();
@@ -53,6 +56,7 @@ namespace v2rayN.Forms
             lvRoutings.View = View.Details;
             lvRoutings.MultiSelect = true;
             lvRoutings.HeaderStyle = ColumnHeaderStyle.Clickable;
+            lvRoutings.RegisterDragEvent(UpdateDragEventHandler);
 
             lvRoutings.Columns.Add("", 30);
             lvRoutings.Columns.Add("outboundTag", 80);
@@ -60,10 +64,21 @@ namespace v2rayN.Forms
             lvRoutings.Columns.Add("protocol", 80);
             lvRoutings.Columns.Add("inboundTag", 80);
             lvRoutings.Columns.Add("domain", 160);
-            lvRoutings.Columns.Add("ip", 160); 
+            lvRoutings.Columns.Add("ip", 160);
             lvRoutings.Columns.Add("enable", 60);
 
             lvRoutings.EndUpdate();
+        }
+        private void UpdateDragEventHandler(int index, int targetIndex)
+        {
+            if (index < 0 || targetIndex < 0)
+            {
+                return;
+            }
+            if (ConfigHandler.MoveRoutingRule(ref routingItem, index, EMove.Position, targetIndex) == 0)
+            {
+                RefreshRoutingsView();
+            }
         }
 
         private void RefreshRoutingsView()
@@ -93,6 +108,7 @@ namespace v2rayN.Forms
         {
             routingItem.remarks = txtRemarks.Text.Trim();
             routingItem.url = txtUrl.Text.Trim();
+            routingItem.customIcon = txtCustomIcon.Text.Trim();
 
             if (ConfigHandler.AddRoutingItem(ref config, routingItem, EditIndex) == 0)
             {
@@ -100,13 +116,21 @@ namespace v2rayN.Forms
             }
             else
             {
-                UI.ShowWarning(UIRes.I18N("OperationFailed"));
+                UI.ShowWarning(ResUI.OperationFailed);
             }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "PNG|*.png";
+            openFileDialog1.ShowDialog();
+            txtCustomIcon.Text = openFileDialog1.FileName;
+
         }
 
         private void lvRoutings_DoubleClick(object sender, EventArgs e)
@@ -132,7 +156,7 @@ namespace v2rayN.Forms
             {
                 if (lvRoutings.SelectedIndices.Count <= 0)
                 {
-                    UI.Show(UIRes.I18N("PleaseSelectRules"));
+                    UI.Show(ResUI.PleaseSelectRules);
                     return index;
                 }
 
@@ -176,7 +200,7 @@ namespace v2rayN.Forms
             int index = GetLvSelectedIndex();
             if (index < 0)
             {
-                UI.Show(UIRes.I18N("PleaseSelectRules"));
+                UI.Show(ResUI.PleaseSelectRules);
                 return;
             }
             if (ConfigHandler.MoveRoutingRule(ref routingItem, index, eMove) == 0)
@@ -210,7 +234,7 @@ namespace v2rayN.Forms
             {
                 return;
             }
-            if (UI.ShowYesNo(UIRes.I18N("RemoveRules")) == DialogResult.No)
+            if (UI.ShowYesNo(ResUI.RemoveRules) == DialogResult.No)
             {
                 return;
             }
@@ -231,7 +255,7 @@ namespace v2rayN.Forms
             if (lst.Count > 0)
             {
                 Utils.SetClipboardData(Utils.ToJson(lst));
-                //UI.Show(UIRes.I18N("OperationSuccess"));
+                //UI.Show(ResUI.OperationSuccess"));
             }
 
         }
@@ -301,7 +325,7 @@ namespace v2rayN.Forms
             if (AddBatchRoutingRules(ref routingItem, result) == 0)
             {
                 RefreshRoutingsView();
-                UI.Show(UIRes.I18N("OperationSuccess"));
+                UI.Show(ResUI.OperationSuccess);
             }
         }
 
@@ -311,7 +335,7 @@ namespace v2rayN.Forms
             if (AddBatchRoutingRules(ref routingItem, clipboardData) == 0)
             {
                 RefreshRoutingsView();
-                UI.Show(UIRes.I18N("OperationSuccess"));
+                UI.Show(ResUI.OperationSuccess);
             }
         }
         private void menuImportRulesFromUrl_Click(object sender, EventArgs e)
@@ -319,21 +343,25 @@ namespace v2rayN.Forms
             var url = txtUrl.Text.Trim();
             if (Utils.IsNullOrEmpty(url))
             {
-                UI.Show(UIRes.I18N("MsgNeedUrl"));
+                UI.Show(ResUI.MsgNeedUrl);
                 return;
             }
-            DownloadHandle downloadHandle = new DownloadHandle();
-            string clipboardData = downloadHandle.WebDownloadStringSync(url);
-            if (AddBatchRoutingRules(ref routingItem, clipboardData) == 0)
+
+            Task.Run(async () =>
             {
-                RefreshRoutingsView();
-                UI.Show(UIRes.I18N("OperationSuccess"));
-            }
+                DownloadHandle downloadHandle = new DownloadHandle();
+                string result = await downloadHandle.DownloadStringAsync(url, false, "");
+                if (AddBatchRoutingRules(ref routingItem, result) == 0)
+                {
+                    RefreshRoutingsView();
+                    UI.Show(ResUI.OperationSuccess);
+                }
+            });
         }
         private int AddBatchRoutingRules(ref RoutingItem routingItem, string clipboardData)
         {
             bool blReplace = false;
-            if (UI.ShowYesNo(UIRes.I18N("AddBatchRoutingRulesYesNo")) == DialogResult.No)
+            if (UI.ShowYesNo(ResUI.AddBatchRoutingRulesYesNo) == DialogResult.No)
             {
                 blReplace = true;
             }
@@ -341,7 +369,6 @@ namespace v2rayN.Forms
         }
 
         #endregion
-
 
     }
 }

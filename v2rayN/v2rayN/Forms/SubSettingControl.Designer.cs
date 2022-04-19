@@ -30,6 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SubSettingControl));
             this.grbMain = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbGroup = new System.Windows.Forms.ComboBox();
+            this.txtUserAgent = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnShare = new System.Windows.Forms.Button();
             this.chkEnabled = new System.Windows.Forms.CheckBox();
             this.btnRemove = new System.Windows.Forms.Button();
@@ -44,6 +48,11 @@
             // 
             // grbMain
             // 
+            resources.ApplyResources(this.grbMain, "grbMain");
+            this.grbMain.Controls.Add(this.label4);
+            this.grbMain.Controls.Add(this.cmbGroup);
+            this.grbMain.Controls.Add(this.txtUserAgent);
+            this.grbMain.Controls.Add(this.label1);
             this.grbMain.Controls.Add(this.btnShare);
             this.grbMain.Controls.Add(this.chkEnabled);
             this.grbMain.Controls.Add(this.btnRemove);
@@ -51,9 +60,32 @@
             this.grbMain.Controls.Add(this.txtRemarks);
             this.grbMain.Controls.Add(this.label2);
             this.grbMain.Controls.Add(this.label3);
-            resources.ApplyResources(this.grbMain, "grbMain");
             this.grbMain.Name = "grbMain";
             this.grbMain.TabStop = false;
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // cmbGroup
+            // 
+            resources.ApplyResources(this.cmbGroup, "cmbGroup");
+            this.cmbGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbGroup.FormattingEnabled = true;
+            this.cmbGroup.Name = "cmbGroup";
+            this.cmbGroup.Leave += new System.EventHandler(this.txtRemarks_Leave);
+            // 
+            // txtUserAgent
+            // 
+            resources.ApplyResources(this.txtUserAgent, "txtUserAgent");
+            this.txtUserAgent.Name = "txtUserAgent";
+            this.txtUserAgent.Leave += new System.EventHandler(this.txtRemarks_Leave);
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // btnShare
             // 
@@ -130,5 +162,9 @@
         private System.Windows.Forms.CheckBox chkEnabled;
         private System.Windows.Forms.Button btnShare;
         private System.Windows.Forms.PictureBox picQRCode;
+        private System.Windows.Forms.TextBox txtUserAgent;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbGroup;
     }
 }

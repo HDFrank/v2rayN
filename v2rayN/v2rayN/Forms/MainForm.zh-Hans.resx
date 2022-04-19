@@ -318,47 +318,29 @@
         ZW0uRHJhd2luZy5HcmFwaGljc1VuaXQBAAAAB3ZhbHVlX18ACAMAAAADAAAACw==
 </value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>服务器列表</value>
-  </data>
   <data name="menuMsgBoxSelectAll.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 22</value>
-  </data>
-  <data name="menuMsgBoxSelectAll.Text" xml:space="preserve">
-    <value>全选 (Ctrl+A)</value>
   </data>
   <data name="menuMsgBoxCopy.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 22</value>
   </data>
-  <data name="menuMsgBoxCopy.Text" xml:space="preserve">
-    <value>复制 (Ctrl+C)</value>
-  </data>
   <data name="menuMsgBoxCopyAll.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 22</value>
   </data>
-  <data name="menuMsgBoxCopyAll.Text" xml:space="preserve">
-    <value>复制所有</value>
+  <data name="menuMsgBoxClear.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 22</value>
   </data>
   <data name="menuMsgBoxAddRoutingRule.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 22</value>
   </data>
-  <data name="menuMsgBoxAddRoutingRule.Text" xml:space="preserve">
-    <value>快速添加路由规则 (Ctrl+V)</value>
-  </data>
   <data name="menuMsgBoxFilter.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 22</value>
   </data>
-  <data name="menuMsgBoxFilter.Text" xml:space="preserve">
-    <value>设置信息过滤器</value>
-  </data>
   <data name="cmsMsgBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 114</value>
+    <value>222, 136</value>
   </data>
   <data name="toolSslServerSpeed.Text" xml:space="preserve">
     <value>网速显示未启用</value>
-  </data>
-  <data name="gbMsgTitle.Text" xml:space="preserve">
-    <value>信息</value>
   </data>
   <data name="menuKeepClear.Size" type="System.Drawing.Size, System.Drawing">
     <value>172, 22</value>
@@ -379,67 +361,82 @@
     <value>不改变系统代理</value>
   </data>
   <data name="menuSysAgentMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 22</value>
+    <value>260, 22</value>
   </data>
   <data name="menuSysAgentMode.Text" xml:space="preserve">
     <value>系统代理</value>
   </data>
   <data name="menuRoutings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 22</value>
+    <value>260, 22</value>
   </data>
   <data name="menuRoutings.Text" xml:space="preserve">
     <value>路由</value>
   </data>
   <data name="menuServers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 22</value>
+    <value>260, 22</value>
   </data>
   <data name="menuServers.Text" xml:space="preserve">
     <value>服务器</value>
   </data>
+  <data name="menuServers2.ToolTipText" xml:space="preserve">
+    <value>服务器</value>
+  </data>
   <data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 6</value>
+    <value>257, 6</value>
   </data>
   <data name="menuAddServers2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 22</value>
+    <value>260, 22</value>
   </data>
   <data name="menuAddServers2.Text" xml:space="preserve">
     <value>从剪贴板导入批量URL</value>
   </data>
   <data name="menuScanScreen2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 22</value>
+    <value>260, 22</value>
   </data>
   <data name="menuScanScreen2.Text" xml:space="preserve">
     <value>扫描屏幕上的二维码</value>
   </data>
   <data name="menuUpdateSubscriptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 22</value>
+    <value>260, 22</value>
   </data>
   <data name="menuUpdateSubscriptions.Text" xml:space="preserve">
-    <value>更新订阅</value>
+    <value>更新订阅(不通过代理)</value>
+  </data>
+  <data name="menuUpdateSubViaProxy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>260, 22</value>
+  </data>
+  <data name="menuUpdateSubViaProxy.Text" xml:space="preserve">
+    <value>更新订阅(通过代理)</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 6</value>
+    <value>257, 6</value>
   </data>
   <data name="menuExit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 22</value>
+    <value>260, 22</value>
   </data>
   <data name="menuExit.Text" xml:space="preserve">
     <value>退出</value>
   </data>
   <data name="cmsMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 170</value>
+    <value>261, 221</value>
   </data>
   <data name="tsbSubSetting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="tsbSubSetting.Text" xml:space="preserve">
     <value>订阅设置</value>
   </data>
   <data name="tsbSubUpdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="tsbSubUpdate.Text" xml:space="preserve">
-    <value>更新订阅</value>
+    <value>更新订阅(不通过代理)</value>
+  </data>
+  <data name="tsbSubUpdateViaProxy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="tsbSubUpdateViaProxy.Text" xml:space="preserve">
+    <value>更新订阅(通过代理)</value>
   </data>
   <data name="tsbSub.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 53</value>
@@ -465,6 +462,18 @@
   <data name="tsbRoutingSetting.Text" xml:space="preserve">
     <value>路由设置</value>
   </data>
+  <data name="tsbGlobalHotkeySetting.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="tsbGlobalHotkeySetting.Text" xml:space="preserve">
+    <value>全局热键设置</value>
+  </data>
+  <data name="tsbGroupSetting.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
+  <data name="tsbGroupSetting.Text" xml:space="preserve">
+    <value>服务器分组设置</value>
+  </data>
   <data name="toolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 6</value>
   </data>
@@ -479,17 +488,6 @@
   </data>
   <data name="tsbSetting.Text" xml:space="preserve">
     <value>  设置  </value>
-  </data>
-  <data name="tsbReload.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE3SURBVFhH7ZaBDQIhDEVvBEdwBDfQDXQER3AD3cARdAPd
-        QDfSDbQvuSb1AicFjJrwkxcN0FIolOuamv5VE2E+gLaPayWchEcE+hhTXVPhIoQmDcFYbKpoJtwEdX4X
-        jgIrXfTwnzb6dBw22BaJVdjJmWQs1/SdBRtE0U5cBXW2oSFRO0HtSEeW2FZ1wsq9sjuRdTDVAXnNuWLY
-        6JnAl0sYa/Q5q1dhq35ci+Bkq2HJvbZpxGeybAAuw4Fq+cnW1wPITgHFYxvBUw+qHEIL1yq1vDKhVlH3
-        NQwF4JkcFRWiUAB7IVW2FFPO3YqlgPd+LJf02e8Fdi3rMdIAcLDuf9UpeT0IS0G/hvhPm305vSl7EQFY
-        B6zCvozvYGzRM8zEoeg5TPZwDaGvpHQni1yzSxbXPW9q+hF13ROHuJnQcjbhtQAAAABJRU5ErkJggg==
-</value>
   </data>
   <data name="tsbReload.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 53</value>
@@ -548,17 +546,13 @@
   <data name="tsbPromotion.Text" xml:space="preserve">
     <value>    推广    </value>
   </data>
-  <data name="tsbClose.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVFhH7c6xDQAgCEVBRnVTHU2ZABuMxV3yOvJDAAA/
-        GqfZVG6X8mg1dfUAAPBQxAZd0SJruVXHWwAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="tsbClose.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 53</value>
   </data>
   <data name="tsbClose.Text" xml:space="preserve">
     <value>  关闭窗口  </value>
+  </data>
+  <data name="menuMoveToGroup.Text" xml:space="preserve">
+    <value>移至分组</value>
   </data>
 </root>
