@@ -68,6 +68,7 @@
             this.txtKcpmtu = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.numStatisticsFreshRate = new System.Windows.Forms.NumericUpDown();
             this.txttrayMenuServersLimit = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.txtautoUpdateSubInterval = new System.Windows.Forms.TextBox();
@@ -79,7 +80,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.chkIgnoreGeoUpdateCore = new System.Windows.Forms.CheckBox();
             this.chkKeepOlderDedupl = new System.Windows.Forms.CheckBox();
-            this.cbFreshrate = new System.Windows.Forms.ComboBox();
             this.lbFreshrate = new System.Windows.Forms.Label();
             this.chkEnableStatistics = new System.Windows.Forms.CheckBox();
             this.chkAutoRun = new System.Windows.Forms.CheckBox();
@@ -98,6 +98,8 @@
             this.labCoreType1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.cmbSystemProxyAdvancedProtocol = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.txtsystemProxyExceptions = new System.Windows.Forms.TextBox();
@@ -110,6 +112,7 @@
             this.tabPage2.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatisticsFreshRate)).BeginInit();
             this.tabPageCoreType.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -378,6 +381,7 @@
             // tabPage7
             // 
             resources.ApplyResources(this.tabPage7, "tabPage7");
+            this.tabPage7.Controls.Add(this.numStatisticsFreshRate);
             this.tabPage7.Controls.Add(this.txttrayMenuServersLimit);
             this.tabPage7.Controls.Add(this.label17);
             this.tabPage7.Controls.Add(this.txtautoUpdateSubInterval);
@@ -389,12 +393,16 @@
             this.tabPage7.Controls.Add(this.label15);
             this.tabPage7.Controls.Add(this.chkIgnoreGeoUpdateCore);
             this.tabPage7.Controls.Add(this.chkKeepOlderDedupl);
-            this.tabPage7.Controls.Add(this.cbFreshrate);
             this.tabPage7.Controls.Add(this.lbFreshrate);
             this.tabPage7.Controls.Add(this.chkEnableStatistics);
             this.tabPage7.Controls.Add(this.chkAutoRun);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // numStatisticsFreshRate
+            // 
+            resources.ApplyResources(this.numStatisticsFreshRate, "numStatisticsFreshRate");
+            this.numStatisticsFreshRate.Name = "numStatisticsFreshRate";
             // 
             // txttrayMenuServersLimit
             // 
@@ -456,13 +464,6 @@
             resources.ApplyResources(this.chkKeepOlderDedupl, "chkKeepOlderDedupl");
             this.chkKeepOlderDedupl.Name = "chkKeepOlderDedupl";
             this.chkKeepOlderDedupl.UseVisualStyleBackColor = true;
-            // 
-            // cbFreshrate
-            // 
-            resources.ApplyResources(this.cbFreshrate, "cbFreshrate");
-            this.cbFreshrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFreshrate.FormattingEnabled = true;
-            this.cbFreshrate.Name = "cbFreshrate";
             // 
             // lbFreshrate
             // 
@@ -581,11 +582,24 @@
             // groupBox2
             // 
             resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Controls.Add(this.label18);
+            this.groupBox2.Controls.Add(this.cmbSystemProxyAdvancedProtocol);
             this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.txtsystemProxyExceptions);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
+            // cmbSystemProxyAdvancedProtocol
+            // 
+            resources.ApplyResources(this.cmbSystemProxyAdvancedProtocol, "cmbSystemProxyAdvancedProtocol");
+            this.cmbSystemProxyAdvancedProtocol.FormattingEnabled = true;
+            this.cmbSystemProxyAdvancedProtocol.Name = "cmbSystemProxyAdvancedProtocol";
             // 
             // label13
             // 
@@ -642,6 +656,7 @@
             this.tabPage6.PerformLayout();
             this.tabPage7.ResumeLayout(false);
             this.tabPage7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatisticsFreshRate)).EndInit();
             this.tabPageCoreType.ResumeLayout(false);
             this.tabPageCoreType.PerformLayout();
             this.tabPage3.ResumeLayout(false);
@@ -689,7 +704,6 @@
         private System.Windows.Forms.CheckBox chkAllowLANConn;
         private System.Windows.Forms.CheckBox chksniffingEnabled;
         private System.Windows.Forms.CheckBox chkEnableStatistics;
-        private System.Windows.Forms.ComboBox cbFreshrate;
         private System.Windows.Forms.Label lbFreshrate;
         private System.Windows.Forms.CheckBox chkKeepOlderDedupl;
         private System.Windows.Forms.CheckBox chkdefAllowInsecure;
@@ -729,5 +743,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txttrayMenuServersLimit;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ComboBox cmbSystemProxyAdvancedProtocol;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.NumericUpDown numStatisticsFreshRate;
     }
 }

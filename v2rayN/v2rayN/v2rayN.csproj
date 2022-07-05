@@ -216,6 +216,7 @@
     <Compile Include="Mode\SysproxyConfig.cs" />
     <Compile Include="Mode\EConfigType.cs" />
     <Compile Include="Mode\ServerTestItem.cs" />
+    <Compile Include="Mode\SsSIP008.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -306,6 +307,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OptionSettingForm.zh-Hans.resx">
       <DependentUpon>OptionSettingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\QRCodeControl.zh-Hans.resx">
       <DependentUpon>QRCodeControl.cs</DependentUpon>
@@ -474,6 +476,9 @@
     <None Include="Resources\minimize.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\NotifyIcon1.ico" />
+    <Content Include="Resources\NotifyIcon2.ico" />
+    <Content Include="Resources\NotifyIcon3.ico" />
     <EmbeddedResource Include="Sample\SampleInbound.txt" />
     <None Include="Resources\share.png" />
     <None Include="Resources\promotion.png" />
@@ -485,13 +490,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Google.Protobuf">
-      <Version>3.20.0</Version>
+      <Version>3.21.1</Version>
     </PackageReference>
     <PackageReference Include="Grpc.Core">
-      <Version>2.45.0</Version>
+      <Version>2.46.3</Version>
     </PackageReference>
     <PackageReference Include="Grpc.Tools">
-      <Version>2.45.0</Version>
+      <Version>2.46.3</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

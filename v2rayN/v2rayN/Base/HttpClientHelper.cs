@@ -45,36 +45,22 @@ namespace v2rayN.Base
             {
                 return null;
             }
-            try
-            {
-                HttpResponseMessage response = await httpClient.GetAsync(url);
+            HttpResponseMessage response = await httpClient.GetAsync(url);
 
-                return await response.Content.ReadAsStringAsync();
-            }
-            catch
-            {
-            }
-            return null;
+            return await response.Content.ReadAsStringAsync();
         }
-        public async Task<string> GetAsync(HttpClient client, string url)
+        public async Task<string> GetAsync(HttpClient client, string url, CancellationToken token)
         {
             if (string.IsNullOrEmpty(url))
             {
                 return null;
             }
-            try
+            HttpResponseMessage response = await client.GetAsync(url, token);
+            if (!response.IsSuccessStatusCode)
             {
-                var cts = new CancellationTokenSource();
-                cts.CancelAfter(5000);
-
-                HttpResponseMessage response = await client.GetAsync(url, cts.Token);
-                return await response.Content.ReadAsStringAsync();
+                throw new Exception(string.Format("The request returned with HTTP status code {0}", response.StatusCode));
             }
-            catch (Exception ex)
-            {
-                Utils.SaveLog("GetAsync", ex);
-            }
-            return null;
+            return await response.Content.ReadAsStringAsync();
         }
 
         public async Task PutAsync(string url, Dictionary<string, string> headers)
@@ -162,7 +148,7 @@ namespace v2rayN.Base
             }
         }
 
-        public async Task DownloadDataAsync4Speed(HttpClient client, string url, IProgress<double> progress, CancellationToken token)
+        public async Task DownloadDataAsync4Speed(HttpClient client, string url, IProgress<string> progress, CancellationToken token)
         {
             if (string.IsNullOrEmpty(url))
             {
@@ -176,15 +162,15 @@ namespace v2rayN.Base
                 throw new Exception(string.Format("The request returned with HTTP status code {0}", response.StatusCode));
             }
 
-            var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
-            var canReportProgress = total != -1 && progress != null;
+            //var total = response.Content.Headers.ContentLength.HasValue ? response.Content.Headers.ContentLength.Value : -1L;
+            //var canReportProgress = total != -1 && progress != null;
 
             using (var stream = await response.Content.ReadAsStreamAsync())
             {
                 var totalRead = 0L;
                 var buffer = new byte[1024 * 64];
                 var isMoreToRead = true;
-                var progressPercentage = 0;
+                string progressSpeed = string.Empty;
                 DateTime totalDatetime = DateTime.Now;
 
                 do
@@ -215,14 +201,13 @@ namespace v2rayN.Base
                         // TODO:   
                         totalRead += read;
 
-                        if (canReportProgress)
+                        TimeSpan ts = (DateTime.Now - totalDatetime);
+                        var speed = (totalRead * 1d / ts.TotalMilliseconds / 1000).ToString("#0.0");
+                        if (progress != null)
                         {
-                            TimeSpan ts = (DateTime.Now - totalDatetime);
-                            var speed = totalRead * 1d / ts.TotalMilliseconds / 1000;
-                            var percent = Convert.ToInt32((totalRead * 1d) / (total * 1d) * 100);
-                            if (progressPercentage != percent)
+                            if (progressSpeed != speed)
                             {
-                                progressPercentage = percent;
+                                progressSpeed = speed;
                                 progress.Report(speed);
                             }
                         }

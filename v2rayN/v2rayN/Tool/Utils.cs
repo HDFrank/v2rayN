@@ -23,6 +23,8 @@ using Newtonsoft.Json.Linq;
 using System.Web;
 using log4net;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Runtime.InteropServices;
 
 namespace v2rayN
 {
@@ -397,6 +399,20 @@ namespace v2rayN
         {
             return HttpUtility.UrlDecode(url);
         }
+
+        public static string GetMD5(string str)
+        {
+            var md5 = MD5.Create();
+            byte[] byteOld = Encoding.UTF8.GetBytes(str);
+            byte[] byteNew = md5.ComputeHash(byteOld);
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in byteNew)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+            return sb.ToString();
+        }
+
         #endregion
 
 
@@ -529,7 +545,13 @@ namespace v2rayN
 
         #region 开机自动启动
 
-        private static string autoRunName = "v2rayNAutoRun";
+        private static string autoRunName
+        {
+            get
+            {
+                return $"v2rayNAutoRun_{GetMD5(StartupPath())}";
+            }
+        }
         private static string autoRunRegPath
         {
             get
@@ -930,7 +952,7 @@ namespace v2rayN
 
         public static string GetDownloadFileName(string url)
         {
-            var fileName = System.IO.Path.GetFileName(url);
+            var fileName = Path.GetFileName(url);
             fileName += "_temp";
 
             return fileName;
@@ -961,7 +983,7 @@ namespace v2rayN
         // return path to store temporary files
         public static string GetTempPath(string filename = "")
         {
-            string _tempPath = Path.Combine(StartupPath(), "v2ray_win_temp");
+            string _tempPath = Path.Combine(StartupPath(), "guiTemps");
             if (!Directory.Exists(_tempPath))
             {
                 Directory.CreateDirectory(_tempPath);
@@ -1090,5 +1112,30 @@ namespace v2rayN
 
         #endregion
 
+
+        #region Windows API
+
+        public static string WindowHwndKey
+        {
+            get
+            {
+                return $"WindowHwnd_{GetMD5(StartupPath())}";
+            }
+        }
+
+        [DllImport("user32.dll")]
+        public static extern bool SetProcessDPIAware();
+
+        [DllImport("user32.dll")]
+        public static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
+        public static extern int SwitchToThisWindow(IntPtr hwnd, bool fUnknown);
+
+        [DllImport("user32.dll")]
+        public static extern bool IsWindow(IntPtr hwnd);
+
+
+        #endregion
     }
 }

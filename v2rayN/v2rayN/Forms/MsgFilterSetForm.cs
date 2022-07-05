@@ -13,6 +13,7 @@ namespace v2rayN.Forms
     public partial class MsgFilterSetForm : BaseForm
     {
         public string MsgFilter { get; set; }
+        public bool ShowDefFilter { get; set; }
 
         public MsgFilterSetForm()
         {
@@ -22,17 +23,19 @@ namespace v2rayN.Forms
         private void MsgFilterSetForm_Load(object sender, EventArgs e)
         {
             txtMsgFilter.Text = MsgFilter;
+            btnFilderProxy.Visible =
+            btnFilterDirect.Visible = ShowDefFilter;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
             MsgFilter = txtMsgFilter.Text;
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
         }
 
         private void btnFilderProxy_Click(object sender, EventArgs e)
@@ -43,6 +46,12 @@ namespace v2rayN.Forms
         private void btnFilterDirect_Click(object sender, EventArgs e)
         {
             txtMsgFilter.Text = "^(?!.*direct).*$";
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            MsgFilter = string.Empty;
+            DialogResult = DialogResult.OK;
         }
     }
 }
